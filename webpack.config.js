@@ -16,7 +16,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "dist"), // 打包后的文件存放的地方
         filename: "[name]_[chunkhash:8].js", // 打包后输出文件的文件名 chunkhash：文件指纹，一般用来做版本管理
-        clean: true, // 与 CleanWebpackPlugin 插件的功能一样
+        clean: true, // 与 CleanWebpackPlugin 插件的功能一样， 打包时，删除dist目录构建产物，重新生成
     },
     plugins: [
         // 配置了html-webpack-plugin,也把输入文件名改为了动态的了（[name].[hash:8].js）
@@ -62,7 +62,7 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     // "style-loader",
                     "css-loader",
-                    "postcss-loader",
+                    "postcss-loader", // 代码生成完后置处理
                     // {
                     //     loader: "postcss-loader",
                     //     options: {
