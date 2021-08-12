@@ -9,7 +9,7 @@ const path = require("path");
 // const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
-    devtool: "source-map",
+    // devtool: "source-map",
     target: "web", // webpack5.x 加上之后热更新才有效果
     mode: "development",
     entry: __dirname + "/src/index.js",
@@ -62,21 +62,15 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     // "style-loader",
                     "css-loader",
-                    "postcss-loader", // 代码生成完后置处理
-                    // {
-                    //     loader: "postcss-loader",
-                    //     options: {
-                    //         plugins: () => {
-                    //             require("autoprefixer")({
-                    //                 overrideBrowserslist: [
-                    //                     "last 2 version",
-                    //                     ">1%",
-                    //                     "ios 7",
-                    //                 ],
-                    //             });
-                    //         },
-                    //     },
-                    // },
+                    // "postcss-loader", // 代码生成完后置处理
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [["postcss-preset-env"]],
+                            },
+                        },
+                    },
                     "sass-loader",
                 ],
             },
@@ -112,10 +106,10 @@ module.exports = {
             },
         ],
     },
-    optimization: { 
+    optimization: {
         minimizer: [
-            new CssMinimizerPlugin() // 这将仅在生产环境开启 CSS 优化
-        ]
+            new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
+        ],
         // minimize: true // 想在开发环境下启用 CSS 优化，请将 optimization.minimize 设置为 true
     },
     // 热更新 HMR 绝对不能被用在生产环境。
