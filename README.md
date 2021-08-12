@@ -1,7 +1,22 @@
 # learn_webpack
 
-#### 介绍
-学习webpack
+# 学习内容
+## 文件指纹
+- Hash
+
+    和整一个项目的构建相关，只要项目文件有修改，整一个项目的hash值就会被更改
+    
+    eg：修改了 a 页面，打包时，b页面文件名也会跟着变化
+- Chunkhash
+
+    和webpack打包的chunk有关，不同的entry会生成 不同的 chunkhash 值
+    
+    解决了 Hash 问题
+- Contenthash
+    
+    根据文件的内容来定义hash，文件内容不变，则 contenthash 不变
+    eg：某一个页面引用了 css 文件，但是只修改了 js 的内容，css内容没有变化，假如打包时也使用 chunkhash , 就会把css文件名也改变了
+
 
 #### 软件架构
 软件架构说明

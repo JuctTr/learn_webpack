@@ -1,20 +1,21 @@
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin"); // 通过 npm 安装
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+// const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const path = require("path");
+// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
 
 // const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
-    // devtool: "source-map",
+    devtool: "source-map",
     target: "web", // webpack5.x 加上之后热更新才有效果
     mode: "development",
     entry: __dirname + "/src/index.js",
     output: {
         path: path.resolve(__dirname, "dist"), // 打包后的文件存放的地方
-        filename: "[name]_[chunkhash:8].js", // 打包后输出文件的文件名
+        filename: "[name]_[chunkhash:8].js", // 打包后输出文件的文件名 chunkhash：文件指纹，一般用来做版本管理
         clean: true, // 与 CleanWebpackPlugin 插件的功能一样
     },
     plugins: [
@@ -23,28 +24,30 @@ module.exports = {
             title: "管理输出",
             filename: "index.html",
             template: __dirname + "/src/index.html",
-            inject: true,
+            inject: true, // 打包出来的chunks会自动注入html中
+            // 设置压缩参数
             // chunks: ["index"],
-            // minify: {
-            //     html5: true,
-            //     collapseWhitespace: true,
-            //     preserveLineBreaks: false,
-            //     minifyCSS: true,
-            //     minifyJS: true,
-            //     removeComments: false,
-            // },
+            minify: {
+                html5: true,
+                collapseWhitespace: true,
+                preserveLineBreaks: false,
+                minifyCSS: true, // 压缩一开始就内联在 html 里面的css和js
+                minifyJS: true,
+                removeComments: false,
+            },
         }),
         // 将 CSS 提取到单独的文件中
         new MiniCssExtractPlugin({
             filename: "[name]_[contenthash:8].css",
         }),
-        // 压缩css资源
+        // 压缩css资源 webpack5 使用 css-minimizer-webpack-plugin
         // new OptimizeCSSAssetsPlugin({
         //     assetNameRegExp: /\.(sa|sc|c)ss$/g,
-        //     cssProcessor: require("cssnano"),
+        //     cssProcessor: require("cssnano"), // cssnano css预处理器 默认引入了
         // }),
         // 清除dist冗余的js文件
         // new CleanWebpackPlugin(),
+        // new webpack.HotModuleReplacementPlugin(), // 热更新插件
     ],
     module: {
         rules: [
@@ -55,7 +58,8 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    MiniCssExtractPlugin.loader, // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面
+                    // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面，而MiniCssExtractPlugin是提取出独立的文件，以link方式引入
+                    MiniCssExtractPlugin.loader,
                     // "style-loader",
                     "css-loader",
                     "postcss-loader",
@@ -89,7 +93,7 @@ module.exports = {
                         loader: "url-loader",
                         options: {
                             limit: 10240,
-                            name: "[name]_[hash:8].[ext]",
+                            name: "[name]_[hash:8].[ext]", // ext：资源后缀名称
                         },
                     },
                 ],
@@ -108,7 +112,13 @@ module.exports = {
             },
         ],
     },
-    // 热更新
+    optimization: { 
+        minimizer: [
+            new CssMinimizerPlugin() // 这将仅在生产环境开启 CSS 优化
+        ]
+        // minimize: true // 想在开发环境下启用 CSS 优化，请将 optimization.minimize 设置为 true
+    },
+    // 热更新 HMR 绝对不能被用在生产环境。
     devServer: {
         // DevServer 根目录
         contentBase: "./dist",
