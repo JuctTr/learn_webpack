@@ -1,4 +1,4 @@
-// const webpack = require("webpack");
+const webpack = require("webpack");
 const glob = require("glob");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -95,6 +95,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name]_[contenthash:8].css",
         }),
+        // Scope hoisting
+        new webpack.optimize.ModuleConcatenationPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [

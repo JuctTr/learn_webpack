@@ -1,5 +1,6 @@
 import _ from "lodash";
 import "./index.scss";
+import { common } from "../common/utils";
 // import printMe from "./print.js";
 
 function component() {
