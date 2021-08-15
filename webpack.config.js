@@ -1,18 +1,64 @@
 // const webpack = require("webpack");
+const glob = require("glob");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+// const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin");
 const path = require("path");
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
 
-// const devMode = process.env.NODE_ENV !== "production";
+const devMode = process.env.NODE_ENV !== "production";
+
+/**
+ * @description 多页面打包应用
+ * @returns
+ */
+function setMPA() {
+    const entry = {};
+    const htmlWebpackPlugins = [];
+    const entryFiles = glob.sync(path.join(__dirname, "./src/*/index.js"));
+
+    Object.keys(entryFiles).map((index) => {
+        const entryFile = entryFiles[index];
+        const match = entryFile.match(/src\/(.*)\/index\.js/);
+        const pageName = match && match[1];
+
+        console.log(`【本地目录】${entryFile}`);
+        console.log(`【页面文件】${pageName}`);
+
+        entry[pageName] = entryFile;
+        htmlWebpackPlugins.push(
+            new HtmlWebpackPlugin({
+                inlineSource: ".css$",
+                template: path.join(__dirname, `src/${pageName}/index.html`),
+                filename: `${pageName}.html`,
+                chunks: ["vendors", pageName],
+                inject: true,
+                minify: {
+                    html5: true,
+                    collapseWhitespace: true,
+                    preserveLineBreaks: false,
+                    minifyCSS: true,
+                    minifyJS: true,
+                    removeComments: false,
+                },
+            })
+        );
+    });
+    return {
+        entry,
+        htmlWebpackPlugins,
+    };
+}
+
+const { entry, htmlWebpackPlugins } = setMPA();
 
 module.exports = {
-    // devtool: "source-map",
+    devtool: devMode ? "eval-cheap-source-map" : "none",
     target: "web", // webpack5.x 加上之后热更新才有效果
     mode: "development",
-    entry: __dirname + "/src/index.js",
+    entry: entry,
     output: {
         path: path.resolve(__dirname, "dist"), // 打包后的文件存放的地方
         filename: "[name]_[chunkhash:8].js", // 打包后输出文件的文件名 chunkhash：文件指纹，一般用来做版本管理
@@ -20,26 +66,22 @@ module.exports = {
     },
     plugins: [
         // 配置了html-webpack-plugin,也把输入文件名改为了动态的了（[name].[hash:8].js）
-        new HtmlWebpackPlugin({
-            title: "管理输出",
-            filename: "index.html",
-            template: __dirname + "/src/index.html",
-            inject: true, // 打包出来的chunks会自动注入html中
-            // 设置压缩参数
-            // chunks: ["index"],
-            minify: {
-                html5: true,
-                collapseWhitespace: true,
-                preserveLineBreaks: false,
-                minifyCSS: true, // 压缩一开始就内联在 html 里面的css和js
-                minifyJS: true,
-                removeComments: false,
-            },
-        }),
-        // 将 CSS 提取到单独的文件中
-        new MiniCssExtractPlugin({
-            filename: "[name]_[contenthash:8].css",
-        }),
+        // new HtmlWebpackPlugin({
+        //     title: "管理输出",
+        //     filename: "index.html",
+        //     template: __dirname + "/src/index.html",
+        //     inject: true, // 打包出来的chunks会自动注入html中
+        //     // 设置压缩参数
+        //     // chunks: ["index"],
+        //     minify: {
+        //         html5: true,
+        //         collapseWhitespace: true,
+        //         preserveLineBreaks: false,
+        //         minifyCSS: true, // 压缩一开始就内联在 html 里面的css和js
+        //         minifyJS: true,
+        //         removeComments: false,
+        //     },
+        // }),
         // 压缩css资源 webpack5 使用 css-minimizer-webpack-plugin
         // new OptimizeCSSAssetsPlugin({
         //     assetNameRegExp: /\.(sa|sc|c)ss$/g,
@@ -47,8 +89,13 @@ module.exports = {
         // }),
         // 清除dist冗余的js文件
         // new CleanWebpackPlugin(),
-        // new webpack.HotModuleReplacementPlugin(), // 热更新插件
-    ],
+        // 热更新插件
+        // new webpack.HotModuleReplacementPlugin(),
+        // 将 CSS 提取到单独的文件中
+        new MiniCssExtractPlugin({
+            filename: "[name]_[contenthash:8].css",
+        }),
+    ].concat(htmlWebpackPlugins),
     module: {
         rules: [
             {
