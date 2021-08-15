@@ -1,0 +1,21 @@
+# Browsers that we support 
+# 查阅 https://github.com/browserslist/browserslist#readme
+# 
+# 可以在package.json中配置
+# {
+#   "browserslist": [
+#     "last 1 version",
+#     "> 1%",
+#     "maintained node versions",
+#     "not dead"
+#   ]
+# }
+
+
+last 1 versions # 最后的一个版本
+> 1% # 代表全球超过1%使用的浏览器
+Firefox >= 20
+Android >= 4.0
+iOS >= 8
+maintained node versions # 所有还被 node 基金会维护的 node 版本
+not dead
