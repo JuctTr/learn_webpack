@@ -62,9 +62,8 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     // "style-loader",
                     "css-loader",
-                    // "postcss-loader", // 代码生成完后置处理
                     {
-                        loader: "postcss-loader",
+                        loader: "postcss-loader", // 代码生成完后置处理
                         options: {
                             postcssOptions: {
                                 plugins: [["postcss-preset-env"]],
