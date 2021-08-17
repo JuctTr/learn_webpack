@@ -102,7 +102,7 @@ module.exports = {
         rules: [
             {
                 test: /.js$/,
-                use: "babel-loader", // ES6+转ES5
+                use: ["babel-loader", "eslint-loader"], // ES6+转ES5
             },
             {
                 test: /\.(sa|sc|c)ss$/,
