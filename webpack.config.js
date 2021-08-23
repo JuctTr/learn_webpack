@@ -99,7 +99,7 @@ module.exports = {
         // Scope hoisting
         new webpack.optimize.ModuleConcatenationPlugin(),
         // 优化构建显示日志
-        new FriendlyErrorsWebpackPlugin()
+        new FriendlyErrorsWebpackPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
@@ -122,7 +122,7 @@ module.exports = {
                             },
                         },
                     },
-                    'sass-loader'
+                    'sass-loader',
                 ],
             },
             // {
@@ -140,7 +140,7 @@ module.exports = {
                             limit: 10240,
                             name: '[name]_[hash:8].[ext]', // ext：资源后缀名称
                         },
-                    }
+                    },
                 ],
             },
             {
@@ -152,14 +152,14 @@ module.exports = {
                         options: {
                             name: '[name]_[hash:8][ext]',
                         },
-                    }
+                    },
                 ],
-            }
+            },
         ],
     },
     optimization: {
         minimizer: [
-            new CssMinimizerPlugin() // 这将仅在生产环境开启 CSS 优化
+            new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
         ],
         // minimize: true // 想在开发环境下启用 CSS 优化，请将 optimization.minimize 设置为 true
         // 提取页面公共资源
@@ -190,9 +190,9 @@ module.exports = {
         hot: true, // 热更新 设置hot:true时，webpack 会自动引入 new webpack.HotModuleReplacementPlugin() 插件
         // DevServer 端口
         port: 8080,
-        // stats: "none",
+        // stats: 'normal',
         // 打开浏览器
         // open: true,
     },
-    // stats: "errors-only",
+    stats: 'errors-only', // build
 };

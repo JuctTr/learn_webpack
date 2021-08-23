@@ -9,7 +9,7 @@ module.exports = {
         // "plugin:vue/essential",
         // "@vue/prettier",
         'eslint:recommended',
-        'o2team-wx'
+        'o2team-wx',
     ],
     env: {
         node: true,
@@ -30,5 +30,15 @@ module.exports = {
         'space-before-function-paren': [2, 'always'],
         // 要求使用分号代替 ASI
         semi: 'off',
+        // 自定义规则，方便格式化代码
+        'comma-dangle': [
+            'warn',
+            {
+                arrays: 'always-multiline',
+                objects: 'always-multiline',
+                imports: 'ignore',
+                functions: 'ignore',
+            },
+        ],
     },
 }
