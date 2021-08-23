@@ -6,10 +6,10 @@
 module.exports = {
     root: true,
     extends: [
-        "plugin:vue/essential",
-        "@vue/prettier",
-        "eslint:recommended",
-        "o2team-wx",
+        // "plugin:vue/essential",
+        // "@vue/prettier",
+        'eslint:recommended',
+        'o2team-wx'
     ],
     env: {
         node: true,
@@ -22,5 +22,13 @@ module.exports = {
     globals: {
         Vue: false,
     },
-    rules: {},
-};
+    rules: {
+        // 强制使用一致的缩进
+        indent: ['error', 4, { SwitchCase: 1 }],
+        // 要求使用 let 或 const 而不是 var
+        'no-var': 'off',
+        'space-before-function-paren': [2, 'always'],
+        // 要求使用分号代替 ASI
+        semi: 'off',
+    },
+}

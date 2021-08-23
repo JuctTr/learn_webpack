@@ -1,3 +1,3 @@
-export function common() {
-    return "common moudule";
+export function common () {
+    return 'common moudule';
 }
