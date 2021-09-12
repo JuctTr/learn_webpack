@@ -5,9 +5,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 // const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin");
+/**
+ * @description 速度分析插件
+ * 会报 Compilation.hooks.normalModuleLoader was moved to NormalModule.getCompilationHooks(compilation).loader 错误
+ * 插件兼容性问题，目前还没有完全和 webpack5 兼容，可以在优化完成后移除相关配置。
+ */
+// const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
+// const smwp = new SpeedMeasureWebpackPlugin();
+/**
+ * @description 体积分析
+ */
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 const path = require('path');
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
+
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -53,9 +66,9 @@ function setMPA () {
     };
 }
 
-const { entry, htmlWebpackPlugins } = setMPA();
+const { entry, htmlWebpackPlugins } = setMPA(); // 多页面打包应用
 
-module.exports = {
+const projectConfig = {
     devtool: devMode ? 'eval-cheap-source-map' : 'none',
     target: 'web', // webpack5.x 加上之后热更新才有效果
     mode: 'development',
@@ -100,6 +113,8 @@ module.exports = {
         new webpack.optimize.ModuleConcatenationPlugin(),
         // 优化构建显示日志
         new FriendlyErrorsWebpackPlugin(),
+        // 体积分析
+        new BundleAnalyzerPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
@@ -196,3 +211,7 @@ module.exports = {
     },
     // stats: 'errors-only', // build
 };
+
+
+// module.exports = smwp.wrap(projectConfig); // 速度分析
+module.exports = projectConfig;
