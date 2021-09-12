@@ -194,5 +194,5 @@ module.exports = {
         // 打开浏览器
         // open: true,
     },
-    stats: 'errors-only', // build
+    // stats: 'errors-only', // build
 };
