@@ -65,7 +65,8 @@ export default function debounce (func, wait, options) {
     }
 
 
-    function leadingEdge (time) {
+    function leadingExecute (time) {
+        console.warn('method: leadingExecute; first click action ')
         lastExecuteTime = time
         timerId = setTimeout(timerExpired, wait)
         return leading ? executeFunction(time) : result
@@ -91,7 +92,7 @@ export default function debounce (func, wait, options) {
     function remainingWait (time) {
         const timeSinceLastCall = time - lastCallTime
         const timeSinceLastExecute = time - lastExecuteTime
-        const timeWaiting = wait - timeSinceLastCall
+        const timeWaiting = wait - timeSinceLastCall // 有两种情况，大于0 和 小于 0
 
         return maxing ? Math.min(timeWaiting, maxWait - timeSinceLastExecute) : timeWaiting
     }
@@ -115,7 +116,8 @@ export default function debounce (func, wait, options) {
         lastCallTime = currentTime // 频繁触发，最后一次 调用 函数的时间
 
         if (isExecuting) {
-            if (timerId === null) return leadingEdge(lastCallTime)
+            // 用户第一次点击执行 leadingExecute
+            if (timerId === null) return leadingExecute(lastCallTime)
 
             if (maxing) {
                 // 在有maxWait下，出现大量的调用可能会触发executeFunction，这里简化处理
@@ -126,9 +128,9 @@ export default function debounce (func, wait, options) {
 
 
         if (timerId === null) {
+            console.warn('method: debounced; timerId is null')
             timerId = setTimeout(timerExpired, wait)
         }
-
         return result
     }
 
@@ -154,5 +156,24 @@ export default function debounce (func, wait, options) {
     debounced.flush = flush
 
     return debounced;
+}
+
+
+export function throttle (func, wait, options) {
+    let leading = true
+    let trailing = true
+
+    if (typeof func !== 'function') {
+        throw new TypeError('Expected a function')
+    }
+    if (Object.prototype.toString.call(options) === '[object Object]') {
+        leading = 'leading' in options ? !!options.leading : leading
+        trailing = 'trailing' in options ? !!options.trailing : trailing
+    }
+    return debounce(func, wait, {
+        leading,
+        trailing,
+        'maxWait': wait,
+    })
 }
 
