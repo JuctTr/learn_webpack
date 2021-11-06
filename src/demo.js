@@ -1,6 +1,7 @@
-function debounce (func, wait, options) {
+export function debounce (func, wait, options) {
+    // 1、判断是否是函数
     const isFunction = Object.prototype.toString.call(func) === '[object Function]';
-    if (!isFunction) return new Error('the ,dfasdfasdfsdf. not a function')
+    if (!isFunction) return new Error('the func not a function')
 
     let leading = false
     let maxing = false
