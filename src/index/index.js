@@ -4,6 +4,7 @@ import './index.scss';
 // import printMe from "./print.js";
 
 import debounce from '../debounce'
+import { customCall } from '../call_apply_bind'
 
 function component () {
     const element = document.createElement('div');
@@ -27,3 +28,18 @@ function component () {
 }
 
 document.body.appendChild(component());
+
+const foo = {
+    count: 1,
+};
+
+
+function Bar () {
+    console.log(this.count);
+}
+
+// eslint-disable-next-line no-extend-native
+Function.prototype.customCall = customCall
+
+Bar.customCall(foo); // 1
+
