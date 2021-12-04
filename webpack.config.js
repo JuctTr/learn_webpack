@@ -120,7 +120,20 @@ const projectConfig = {
         rules: [
             {
                 test: /.js$/,
-                use: ['babel-loader', 'eslint-loader'], // ES6+转ES5
+                /*
+                    thread-loader会对其后面的loader（这里是babel-loader）开启多进程打包。
+                    进程启动大概为600ms，进程通信也有开销。(启动的开销比较昂贵，不要滥用)
+                    只有工作消耗时间比较长，才需要多进程打包
+                    thread-loader必须最后执行，再次说明loader是从下往上，从右往左的执行顺序,所以想要使用thread-loader优化某项的打包速度，必须放在其后执行
+                    */
+                use: [{
+                    loader: 'thread-loader', // https://webpack.docschina.org/loaders/thread-loader/
+                    options: {
+                        workers: 3,
+                        // ....
+                    },
+                },
+                'babel-loader', 'eslint-loader'], // ES6+转ES5
             },
             {
                 test: /\.(sa|sc|c)ss$/,
