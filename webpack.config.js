@@ -20,6 +20,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const path = require('path');
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
+const TerserPlugin = require('terser-webpack-plugin');
 
 
 const devMode = process.env.NODE_ENV !== 'production';
@@ -186,10 +187,14 @@ const projectConfig = {
         ],
     },
     optimization: {
+        minimize: true, // 想在开发环境下启用下方插件的优化，请将 optimization.minimize 设置为 true
         minimizer: [
             new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
+            // https://webpack.docschina.org/plugins/terser-webpack-plugin/
+            new TerserPlugin({
+                parallel: true, // 是否开启并行压缩
+            }),
         ],
-        // minimize: true // 想在开发环境下启用 CSS 优化，请将 optimization.minimize 设置为 true
         // 提取页面公共资源
         // splitChunks: {
         //     minSize: 0,
