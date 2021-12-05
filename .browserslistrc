@@ -1,6 +1,6 @@
-# Browsers that we support 
+# Browsers that we support
 # 查阅 https://github.com/browserslist/browserslist#readme
-# 
+#
 # 可以在package.json中配置
 # {
 #   "browserslist": [

@@ -9,7 +9,8 @@
     "dev": "webpack serve --config webpack.config.js",
     "start": "webpack serve --open",
     "lint": "eslint --fix --ext .js,.vue src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dll": "webpack --config webpack.dll.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

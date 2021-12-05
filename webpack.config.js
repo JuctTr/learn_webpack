@@ -116,6 +116,9 @@ const projectConfig = {
         new FriendlyErrorsWebpackPlugin(),
         // 体积分析
         new BundleAnalyzerPlugin(),
+        // new webpack.DllReferencePlugin({
+        //     manifest: require('./build/library/library.json'),
+        // }),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
@@ -207,6 +210,7 @@ const projectConfig = {
         //     }
         // }
     },
+    // 设置分包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等
     externals: {
         jquery: 'jQuery',
         vue: 'Vue',
