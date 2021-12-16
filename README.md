@@ -64,6 +64,19 @@ loader内可以直接通过throw抛出错误
 - 进行文件输出
 通过this.emitFile方法进行文件写入
 
+#### 实战：编写自动合成雪碧图的loader
+使用spritesmith https://github.com/twolfson/spritesmith
+- spritesmith 使用示例
+```javascript
+const sprites = ['./images/1.jpg', './images/2.jpg'];
+Spritesmith.run({src: sprites}, function handleResult (err, result) {
+result.image;
+result.coordinates;
+result.properties;
+});
+```
+
+
 #### 软件架构
 软件架构说明
 

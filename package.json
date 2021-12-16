@@ -47,6 +47,7 @@
     "sass": "^1.35.1",
     "sass-loader": "^12.1.0",
     "speed-measure-webpack-plugin": "^1.5.0",
+    "spritesmith": "^3.4.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.2.5",
     "thread-loader": "^3.0.4",
