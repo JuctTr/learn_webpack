@@ -47,6 +47,7 @@ GitHub文档：https://github.com/webpack/webpack-cli
 
 ### loader-runner介绍
 官方文档：https://github.com/webpack/loader-runner
+自定义loader：https://webpack.docschina.org/contribute/writing-a-loader/
 定义：loader-runner允许你在不安装webpack的情况下运行loaders
 作用：
 - 作为webpack的依赖，webpack中使用他执行loader
@@ -74,6 +75,24 @@ result.image;
 result.coordinates;
 result.properties;
 });
+```
+### 开发插件
+#### 基本结构
+自定义插件：https://webpack.docschina.org/contribute/writing-a-plugin/
+```javascript
+class MyPlugin {
+    constructor(options) {
+        this.options = options;
+    }
+    apply(compiler) {
+        compiler.hooks.done.tap(' My Plugin', (
+        stats /* stats is passed as argument when done hook is tapped. */
+        ) => {
+            console.log('Hello World!');
+        });
+    }
+}
+module.exports = MyPlugin;
 ```
 
 
