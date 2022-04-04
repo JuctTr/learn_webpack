@@ -1,6 +1,8 @@
 # Browsers that we support
 # 查阅 https://github.com/browserslist/browserslist#readme
 #
+# 如果你不是要兼容所有的浏览器和环境，推荐你指定目标环境，这样你的编译代码（@babel/preset-env）能够保持最小。
+#
 # 可以在package.json中配置
 # {
 #   "browserslist": [

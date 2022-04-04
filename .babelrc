@@ -1,0 +1,12 @@
+{
+    // "plugins": ["@babel/plugin-transform-arrow-functions"],
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage", // 设置值为 usage 时，就只会包含代码需要的 polyfill
+                "corejs": 3
+            }
+        ]
+    ]
+}
