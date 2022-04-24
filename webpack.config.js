@@ -189,6 +189,13 @@ const projectConfig = {
             },
         ],
     },
+    // 让 Webpack 能够识别 loaders 目录下的自定义 Loader
+    resolveLoader: {
+        modules: [
+        //   path.resolve(__dirname, "node_modules"),
+            path.resolve(__dirname, 'loaders'),
+        ],
+    },
     optimization: {
         minimize: true, // 想在开发环境下启用下方插件的优化，请将 optimization.minimize 设置为 true
         minimizer: [
