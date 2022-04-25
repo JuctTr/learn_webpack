@@ -61,6 +61,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "core-js": "^3.22.2",
     "loader-runner": "^4.2.0",
     "lodash": "^4.17.21"
   },

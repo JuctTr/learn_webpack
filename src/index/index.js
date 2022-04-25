@@ -4,7 +4,7 @@ import './index.scss';
 // import printMe from "./print.js";
 
 import debounce from '../debounce'
-import { customCall } from '../call_apply_bind'
+import { customCall } from '../handcode/call_apply_bind'
 
 function component () {
     const element = document.createElement('div');
