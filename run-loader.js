@@ -50,6 +50,20 @@ runLoaders(
                     name: 'aLoader',
                 },
             },
+            // 异步loader
+            {
+                loader: path.join(__dirname, './loaders/async-loader.js'),
+                options: {
+                    name: 'asyncLoader',
+                },
+            },
+            // 同步loader
+            {
+                loader: path.join(__dirname, './loaders/sync-loader.js'),
+                options: {
+                    name: 'syncLoader',
+                },
+            },
         ],
         // 附加的loaders 上下文
         context: {
