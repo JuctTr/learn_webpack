@@ -2,7 +2,7 @@
  * @description loader-runner允许你在不安装webpack的情况下运行loaders
  * @douments https://github.com/webpack/loader-runner
  * 作用：
- * - 作为webpack的依赖，webpack中使用他执行loader
+ * - 作为webpack的依赖，Webpack 内部会使用 loader-runner 这个库来运行已配置的 loaders
  * - 进行loader的开发和调试
  */
 const { runLoaders } = require('loader-runner');
