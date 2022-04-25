@@ -9,6 +9,7 @@ module.exports = function (source) {
     const imgs = source.match(/url\((\S*)\?_sprite/g)
     console.log('imgs => ', imgs)
     // 。。。。。。。。。
+    return source;
 }
 
 const sprites = [
