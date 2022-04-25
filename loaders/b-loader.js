@@ -18,7 +18,7 @@ bLoader.pitch = function (remainingRequest, precedingRequest, data) {
     console.log('【剩余请求】=> ', remainingRequest)
     console.log('【前置请求】=> ', precedingRequest)
     console.log('【数据对象】=> ', data)
-    // return 'bLoader Pitching Loader->';
+    return 'bLoader Pitching Loader->';
 };
 
 module.exports = bLoader
