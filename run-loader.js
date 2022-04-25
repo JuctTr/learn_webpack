@@ -14,22 +14,40 @@ const path = require('path');
 runLoaders(
     {
         // String 资源的绝对路径，包括查询字符串（可选）eg: resource: "/abs/path/to/file.txt?query",
-        resource: path.join(__dirname, './src/demo.txt'),
+        resource: path.join(__dirname, './loaders/demo.txt'),
         /**
          * String[]: loaders 的绝对路径，包括查询字符串（可选）eg: loaders: ["/abs/path/to/loader.js?query"],
          * {loader, options}[]: 带有options对象的loaders的绝对路径
          */
         loaders: [
+            // {
+            //     loader: path.join(__dirname, './loaders/raw-loader.js'),
+            //     options: {
+            //         name: 'test',
+            //     },
+            // },
+            // {
+            //     loader: path.join(__dirname, './loaders/sprite-loader.js'),
+            //     options: {
+            //         name: 'test1',
+            //     },
+            // },
             {
-                loader: path.join(__dirname, './loaders/raw-loader.js'),
+                loader: path.join(__dirname, './loaders/c-loader.js'),
                 options: {
-                    name: 'test',
+                    name: 'cLoader',
                 },
             },
             {
-                loader: path.join(__dirname, './loaders/sprite-loader.js'),
+                loader: path.join(__dirname, './loaders/b-loader.js'),
                 options: {
-                    name: 'test1',
+                    name: 'bLoader',
+                },
+            },
+            {
+                loader: path.join(__dirname, './loaders/a-loader.js'),
+                options: {
+                    name: 'aLoader',
                 },
             },
         ],

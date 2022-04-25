@@ -190,7 +190,12 @@ const projectConfig = {
         ],
     },
     // 让 Webpack 能够识别 loaders 目录下的自定义 Loader
+    // document：https://webpack.docschina.org/configuration/resolve/
     // resolveLoader: {
+    //     // 配置别名
+    //     alias: {
+    //         'a-loader': path.resolve(__dirname, 'loaders/a.js'),
+    //     },
     //     modules: [
     //     //   path.resolve(__dirname, "node_modules"),
     //         path.resolve(__dirname, 'loaders'),
