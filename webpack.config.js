@@ -43,6 +43,7 @@ function setMPA () {
         console.log(`【页面文件】${pageName}`);
 
         entry[pageName] = entryFile;
+        // 配置项查看：https://github.com/jantimon/html-webpack-plugin#configuration
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
                 inlineSource: '.css$',

@@ -11,7 +11,8 @@
     "lint": "eslint --fix --ext .js,.vue src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dll": "webpack --config webpack.dll.js",
-    "compiler": "babel src/index.js --out-dir lib --watch"
+    "compiler": "babel src/index.js --out-dir lib --watch",
+    "debug": "node --inspect-brk=9339 ./node_modules/.bin/webpack"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
