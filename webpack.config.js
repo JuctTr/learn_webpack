@@ -22,6 +22,8 @@ const path = require('path');
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
 const TerserPlugin = require('terser-webpack-plugin');
 
+const { CustomWebpackPlugin } = require('./plugins/customWebpackPlugin')
+
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -120,6 +122,7 @@ const projectConfig = {
         // new webpack.DllReferencePlugin({
         //     manifest: require('./build/library/library.json'),
         // }),
+        new CustomWebpackPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
