@@ -20,3 +20,13 @@ console.log(person.habit) // Games
 console.log(person.strength) // undefined
 console.log(person.age) // undefined
 
+function condition () {
+    /* wxa if:app=='h5' */
+    console.log('【H5环境】=> ')
+    /* wxa else */
+    console.log('【小程序环境】=> ')
+    /* /wxa  */
+    console.log('【全部环境】=> ')
+}
+condition()
+

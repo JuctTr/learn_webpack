@@ -20,7 +20,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const path = require('path');
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
-const TerserPlugin = require('terser-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 
 const { CustomWebpackPlugin } = require('./plugins/customWebpackPlugin')
 
@@ -191,6 +191,18 @@ const projectConfig = {
                     },
                 ],
             },
+            {
+                test: /.js$/,
+                use: [
+                    {
+                        loader: path.join(__dirname, `loaders/condition-loader.js`),
+                        options: {
+                            name: 'conditionLoader',
+                            fileType: 'js',
+                        },
+                    },
+                ],
+            },
         ],
     },
     // 让 Webpack 能够识别 loaders 目录下的自定义 Loader
@@ -210,9 +222,9 @@ const projectConfig = {
         minimizer: [
             new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
             // https://webpack.docschina.org/plugins/terser-webpack-plugin/
-            new TerserPlugin({
-                parallel: true, // 是否开启并行压缩
-            }),
+            // new TerserPlugin({
+            //     parallel: true, // 是否开启并行压缩，生产环境才开启吧，开发和调试阶段建议不开启
+            // }),
         ],
         // 提取页面公共资源
         // splitChunks: {

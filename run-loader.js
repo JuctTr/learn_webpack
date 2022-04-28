@@ -1,5 +1,5 @@
 /**
- * @description loader-runner允许你在不安装webpack的情况下运行loaders
+ * @description loader-runner允许你在不安装webpack的情况下运行loaders，本脚本为开发和调试loaders专用
  * @douments https://github.com/webpack/loader-runner
  * 作用：
  * - 作为webpack的依赖，Webpack 内部会使用 loader-runner 这个库来运行已配置的 loaders
@@ -14,7 +14,7 @@ const path = require('path');
 runLoaders(
     {
         // String 资源的绝对路径，包括查询字符串（可选）eg: resource: "/abs/path/to/file.txt?query",
-        resource: path.join(__dirname, './loaders/demo.txt'),
+        resource: path.join(__dirname, './loaders/index.js'),
         /**
          * String[]: loaders 的绝对路径，包括查询字符串（可选）eg: loaders: ["/abs/path/to/loader.js?query"],
          * {loader, options}[]: 带有options对象的loaders的绝对路径
@@ -32,36 +32,43 @@ runLoaders(
             //         name: 'test1',
             //     },
             // },
+            // {
+            //     loader: path.join(__dirname, './loaders/c-loader.js'),
+            //     options: {
+            //         name: 'cLoader',
+            //     },
+            // },
+            // {
+            //     loader: path.join(__dirname, './loaders/b-loader.js'),
+            //     options: {
+            //         name: 'bLoader',
+            //     },
+            // },
+            // {
+            //     loader: path.join(__dirname, './loaders/a-loader.js'),
+            //     options: {
+            //         name: 'aLoader',
+            //     },
+            // },
+            // // 异步loader
+            // {
+            //     loader: path.join(__dirname, './loaders/async-loader.js'),
+            //     options: {
+            //         name: 'asyncLoader',
+            //     },
+            // },
+            // // 同步loader
+            // {
+            //     loader: path.join(__dirname, './loaders/sync-loader.js'),
+            //     options: {
+            //         name: 'syncLoader',
+            //     },
+            // },
             {
-                loader: path.join(__dirname, './loaders/c-loader.js'),
+                loader: path.join(__dirname, './loaders/condition-loader.js'),
                 options: {
-                    name: 'cLoader',
-                },
-            },
-            {
-                loader: path.join(__dirname, './loaders/b-loader.js'),
-                options: {
-                    name: 'bLoader',
-                },
-            },
-            {
-                loader: path.join(__dirname, './loaders/a-loader.js'),
-                options: {
-                    name: 'aLoader',
-                },
-            },
-            // 异步loader
-            {
-                loader: path.join(__dirname, './loaders/async-loader.js'),
-                options: {
-                    name: 'asyncLoader',
-                },
-            },
-            // 同步loader
-            {
-                loader: path.join(__dirname, './loaders/sync-loader.js'),
-                options: {
-                    name: 'syncLoader',
+                    name: 'conditionLoader',
+                    fileType: 'js',
                 },
             },
         ],
