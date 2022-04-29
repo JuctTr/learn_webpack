@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const glob = require('glob');
+const path = require('path');
+const chalk = require('chalk')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -16,8 +18,11 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
  * @description 体积分析
  */
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+/**
+ * @description 编译进度条
+ */
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
-const path = require('path');
 // const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
 // const TerserPlugin = require('terser-webpack-plugin');
@@ -119,6 +124,10 @@ const projectConfig = {
         new FriendlyErrorsWebpackPlugin(),
         // 体积分析
         new BundleAnalyzerPlugin(),
+        // 进度条
+        new ProgressBarPlugin({
+            format: `  :msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
+        }),
         // new webpack.DllReferencePlugin({
         //     manifest: require('./build/library/library.json'),
         // }),
@@ -222,8 +231,8 @@ const projectConfig = {
         minimizer: [
             new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
             // https://webpack.docschina.org/plugins/terser-webpack-plugin/
-            // new TerserPlugin({
-            //     parallel: true, // 是否开启并行压缩，生产环境才开启吧，开发和调试阶段建议不开启
+            // new TerserPlugin({ // 生产环境才开启吧，开发和调试阶段建议不开启
+            //     parallel: true, // 是否开启并行压缩
             // }),
         ],
         // 提取页面公共资源
