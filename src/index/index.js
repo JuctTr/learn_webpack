@@ -10,7 +10,7 @@ function component () {
     const element = document.createElement('div');
     const btn = document.createElement('button');
 
-    btn.innerHTML = 'Click me and check the console!~';
+    btn.innerHTML = 'Click me and check the console!~~~~~';
     btn.onclick = debounce(function () {
         // alert('click button');
         console.error('cllick button')

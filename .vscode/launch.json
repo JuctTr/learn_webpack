@@ -36,7 +36,7 @@
                 "<node_internals>/**"
             ],
             "runtimeExecutable": "npm",
-            "runtimeArgs": ["run", "debug"],
+            "runtimeArgs": ["run", "dev"],
             "program": "${workspaceFolder}",
             "port": 5858,
         }

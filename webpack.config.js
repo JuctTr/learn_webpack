@@ -12,12 +12,11 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
  * 会报 Compilation.hooks.normalModuleLoader was moved to NormalModule.getCompilationHooks(compilation).loader 错误
  * 插件兼容性问题，目前还没有完全和 webpack5 兼容，可以在优化完成后移除相关配置。
  */
-// const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
-// const smwp = new SpeedMeasureWebpackPlugin();
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 /**
  * @description 体积分析
  */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 /**
  * @description 编译进度条
  */
@@ -27,7 +26,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); // webpack5 使用 css-minimizer-webpack-plugin
 // const TerserPlugin = require('terser-webpack-plugin');
 
-const { CustomWebpackPlugin } = require('./plugins/customWebpackPlugin')
+// const { CustomWebpackPlugin } = require('./plugins/customWebpackPlugin')
 
 
 const devMode = process.env.NODE_ENV !== 'production';
@@ -115,15 +114,15 @@ const projectConfig = {
         // 热更新插件
         // new webpack.HotModuleReplacementPlugin(),
         // 将 CSS 提取到单独的文件中
-        new MiniCssExtractPlugin({
-            filename: '[name]_[contenthash:8].css',
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: '[name]_[contenthash:8].css',
+        // }),
         // Scope hoisting
         new webpack.optimize.ModuleConcatenationPlugin(),
         // 优化构建显示日志
         new FriendlyErrorsWebpackPlugin(),
         // 体积分析
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
         // 进度条
         new ProgressBarPlugin({
             format: `  :msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
@@ -131,7 +130,7 @@ const projectConfig = {
         // new webpack.DllReferencePlugin({
         //     manifest: require('./build/library/library.json'),
         // }),
-        new CustomWebpackPlugin(),
+        // new CustomWebpackPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
@@ -155,9 +154,9 @@ const projectConfig = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
+                    // 'style-loader',
                     // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面，而MiniCssExtractPlugin是提取出独立的文件，以link方式引入
                     MiniCssExtractPlugin.loader,
-                    // "style-loader",
                     'css-loader',
                     {
                         loader: 'postcss-loader', // 代码生成完后置处理
@@ -229,10 +228,32 @@ const projectConfig = {
     optimization: {
         minimize: true, // 想在开发环境下启用下方插件的优化，请将 optimization.minimize 设置为 true
         minimizer: [
-            new CssMinimizerPlugin(), // 这将仅在生产环境开启 CSS 优化
+            new CssMinimizerPlugin({ // 这将仅在生产环境开启 CSS 优化
+                parallel: 4,
+            }),
             // https://webpack.docschina.org/plugins/terser-webpack-plugin/
             // new TerserPlugin({ // 生产环境才开启吧，开发和调试阶段建议不开启
-            //     parallel: true, // 是否开启并行压缩
+            //     // parallel: true, // 是否开启并行压缩
+            //     parallel: 4, // 是否开启并行压缩
+            //     terserOptions: {
+            //         parse: {
+            //             ecma: 8,
+            //         },
+            //         compress: {
+            //             ecma: 5,
+            //             warnings: false,
+            //             comparisons: false,
+            //             inline: 2,
+            //         },
+            //         mangle: {
+            //             safari10: true,
+            //         },
+            //         output: {
+            //             ecma: 5,
+            //             comments: false,
+            //             ascii_only: true,
+            //         },
+            //     },
             // }),
         ],
         // 提取页面公共资源
@@ -274,6 +295,10 @@ const projectConfig = {
     }, // build
 };
 
+const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(projectConfig);
+configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({
+    filename: '[name]_[contenthash:8].css',
+}));
 
-// module.exports = smwp.wrap(projectConfig); // 速度分析
-module.exports = projectConfig;
+module.exports = configWithTimeMeasures;
+
