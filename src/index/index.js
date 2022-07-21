@@ -3,7 +3,7 @@ import './index.scss';
 // import { common } from '../common/utils';
 // import printMe from "./print.js";
 
-import debounce from '../debounce'
+import debounce from '../handcode/debounce'
 import { customCall } from '../handcode/call_apply_bind'
 
 function component () {

@@ -177,3 +177,50 @@ export function throttle (func, wait, options) {
     })
 }
 
+// ES6版本
+const debounce = (func, wait = 500, options) => {
+
+    let timer = null;
+    const immediate = options.immediate;
+    return function(...args) {
+      if (timer) clearTimeout(timer);
+
+      if (immediate) {
+
+        const callNow = !timer
+
+        if (callNow) func.apply(this, args)
+      }
+
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, wait);
+    }
+  }
+
+
+function throttle(func, wait, options) {
+    var context, args;
+    var previous = 0; 			// 用来保存上一次用户触发的时间
+    return function() {
+        var now = +new Date();   // 当前用户触发事件的时间
+        context = this;
+        args = arguments;
+        if (now - previous > wait) { // 当前用户触发事件的时间 - 上一次用户触发的时间 > wait
+            func.apply(context, args);
+            previous = now;
+        }
+    }
+}
+function throttle(func, wait, options) {
+    var context, args;
+    let timer = null;
+    return function() {
+        context = this;
+        if (!timer) {
+            timer = setTimeout(() => {
+                func.apply(this, args)
+            }, wait)
+        }
+    }
+}

@@ -5,5 +5,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
     </head>
-    <body></body>
+    <body>
+
+        <script>
+
+            function demo (s) {
+
+                const hashMap = {
+                    ')': '(',
+                    '}': '{',
+                    ']': '[',
+                }
+
+                const result = []
+
+                for(const item of s) {
+                    if (hashMap[item]) {
+                        if (!result.length || result[result.length - 1] !== hashMap[item]) {
+                            return false
+                        }
+
+                        result.pop()
+                    } else {
+                        result.push(item)
+                    }
+                }
+
+                return !result.length
+
+            }
+            console.log(demo('([]{})'))
+        </script>
+
+    </body>
 </html>
