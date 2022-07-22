@@ -38,32 +38,3 @@ babel.traverse(
 // console.log(ast, '抽象语法树-end');
 const result = generate(ast);
 console.log(result, '最终代码');
-
-// ================================================================================================================================================================
-
-
-const code = `const fn = (a, b) => a + b`; // 转换后 const fn = function(a, b) { return a + b }
-const arrowFnPlugin = {
-    // 访问者模式
-    visitor: {
-    // 当访问到某个路径的时候进行匹配
-        ArrowFunctionExpression (path) {
-        // 拿到节点然后替换节点
-            const node = path.node;
-            // 拿到函数的参数
-            const params = node.params;
-            const returnStatement = t.returnStatement(node.body);
-            const blockStatement = t.blockStatement([returnStatement]);
-            const functionExpression = t.functionExpression(null, params, blockStatement);
-            // 替换原来的函数
-            path.replaceWith(functionExpression);
-        },
-    },
-};
-
-const r = babel.transform(code, {
-    plugins: [arrowFnPlugin],
-});
-
-console.log('转换后的语法树', r);
-// console.log('转换后的代码=》', r.code);

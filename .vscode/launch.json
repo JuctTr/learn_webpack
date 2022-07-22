@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch babel",
+            "program": "${workspaceFolder}/src/babel/plugins/arrowFunctionPlugin.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "name": "Launch via NPM",
             "request": "launch",
             "runtimeArgs": [
