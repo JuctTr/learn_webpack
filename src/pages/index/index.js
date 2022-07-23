@@ -3,8 +3,8 @@ import './index.scss';
 // import { common } from '../common/utils';
 // import printMe from "./print.js";
 
-import debounce from '../handcode/debounce'
-import { customCall } from '../handcode/call_apply_bind'
+import debounce from '../../handcode/debounce'
+import { customCall } from '../../handcode/call_apply_bind'
 
 function component () {
     const element = document.createElement('div');

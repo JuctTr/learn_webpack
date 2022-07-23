@@ -21,11 +21,11 @@ const appDirectory = fs.realpathSync(process.cwd());
 function setMPA () {
     const entry = {};
     const htmlWebpackPlugins = [];
-    const entryFiles = glob.sync(path.join(appDirectory, './src/*/index.js'));
+    const entryFiles = glob.sync(path.join(appDirectory, './src/pages/*/index.js'));
 
     Object.keys(entryFiles).forEach(index => {
         const entryFile = entryFiles[index];
-        const match = entryFile.match(/src\/(.*)\/index\.js/);
+        const match = entryFile.match(/src\/pages\/(.*)\/index\.js/);
         const pageName = match && match[1];
 
         console.log(`【本地目录】${entryFile}`);
@@ -36,7 +36,7 @@ function setMPA () {
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
                 title: pageName,
-                template: path.join(appDirectory, `src/${pageName}/index.html`),
+                template: path.join(appDirectory, `src/pages/${pageName}/index.html`),
                 filename: `${pageName}.html`,
                 chunks: ['vendors', pageName],
                 inject: true,
