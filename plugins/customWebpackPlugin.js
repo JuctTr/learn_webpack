@@ -115,4 +115,4 @@ class CustomWebpackPlugin {
     }
 }
 
-module.exports = { CustomWebpackPlugin };
+module.exports = CustomWebpackPlugin;

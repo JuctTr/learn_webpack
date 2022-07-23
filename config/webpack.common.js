@@ -10,6 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
  */
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const CustomWebpackPlugin = require('../plugins/customWebpackPlugin')
 
 // const devMode = process.env.NODE_ENV !== 'production';
 const appDirectory = fs.realpathSync(process.cwd());
@@ -79,6 +80,7 @@ module.exports = {
         new ProgressBarPlugin({
             format: `  :msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
         }),
+        new CustomWebpackPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
