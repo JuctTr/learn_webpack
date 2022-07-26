@@ -47,7 +47,19 @@
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run", "dev"],
             "program": "${workspaceFolder}",
-            "port": 5858,
-        }
+        },
+        {
+            "name": "Webpack Build",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "build"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
     ]
 }

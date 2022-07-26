@@ -10,7 +10,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
  */
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const CustomWebpackPlugin = require('../plugins/customWebpackPlugin')
+// const CustomWebpackPlugin = require('../plugins/customWebpackPlugin')
+const CompressAssetsPlugin = require('../plugins/CompressAssetsPlugin');
 
 // const devMode = process.env.NODE_ENV !== 'production';
 const appDirectory = fs.realpathSync(process.cwd());
@@ -80,7 +81,10 @@ module.exports = {
         new ProgressBarPlugin({
             format: `  :msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
         }),
-        new CustomWebpackPlugin(),
+        // new CustomWebpackPlugin(),
+        new CompressAssetsPlugin({
+            filename: 'zipFilename',
+        }),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
