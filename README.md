@@ -94,6 +94,17 @@ class MyPlugin {
 }
 module.exports = MyPlugin;
 ```
+#### 插件的错误处理方式
+
+参数校验阶段可以直接 `throw` 的方式抛出
+```javascript
+throw new Error("Error Message")
+```
+通过 compilation 对象的 warnings 和 errors 数组接收
+```javascript
+compilation.warnings.push("xxxxxxx")
+compilation.errors.push("xxxxxxx")
+```
 
 
 #### 软件架构

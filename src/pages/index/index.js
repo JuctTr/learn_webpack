@@ -43,3 +43,4 @@ Function.prototype.customCall = customCall
 
 Bar.customCall(foo); // 1
 
+console.log('有没有去掉？？？')
