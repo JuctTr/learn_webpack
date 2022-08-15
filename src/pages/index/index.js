@@ -3,8 +3,8 @@ import './index.scss';
 // import { common } from '../common/utils';
 // import printMe from "./print.js";
 
-import debounce from '../../handcode/debounce'
-import { customCall } from '../../handcode/call_apply_bind'
+import debounce from '../../handcode/debounce';
+import { customCall } from '../../handcode/call_apply_bind';
 
 function component () {
     const element = document.createElement('div');
@@ -13,8 +13,8 @@ function component () {
     btn.innerHTML = 'Click me and check the console!~~~~~';
     btn.onclick = debounce(function () {
         // alert('click button');
-        console.error('cllick button')
-    }, 1000)
+        console.error('cllick button');
+    }, 1000);
 
     // lodash（目前通过一个 script 引入）对于执行这一行是必需的
     // lodash 在当前 script 中使用 import 引入
@@ -33,14 +33,14 @@ const foo = {
     count: 1,
 };
 
-
 function Bar () {
     console.log(this.count);
 }
 
 // eslint-disable-next-line no-extend-native
-Function.prototype.customCall = customCall
+Function.prototype.customCall = customCall;
 
 Bar.customCall(foo); // 1
 
-console.log('有没有去掉？？？')
+console.log('有没有去掉？？？');
+

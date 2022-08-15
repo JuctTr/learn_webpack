@@ -1,4 +1,4 @@
-console.error('search => ')
+console.error('search => ');
 
 // eslint-disable-next-line require-await
 // const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -10,12 +10,11 @@ console.error('search => ')
 //     }, ms)
 // })
 
-const demo = [1, 2, 3, 4].map(item => item * 2)
-console.error(demo) // [2, 4, 6, 8]
+const demo = [1, 2, 3, 4].map(item => item * 2);
+console.error(demo); // [2, 4, 6, 8]
 
-
-const demo2 = [1, 2, 3, 4].map(async item => await item * 2)
-console.error(demo2)
+const demo2 = [1, 2, 3, 4].map(async item => (await item) * 2);
+console.error(demo2);
 /**
 (4) [Promise, Promise, Promise, Promise]
 0: Promise {<fulfilled>: 2}
@@ -54,7 +53,6 @@ length: 4
 // Loop Start
 // 3
 // Loop End
-
 
 // const mapResult = [1, 2].map(async num => {
 //     console.log('Loop Start')
@@ -100,6 +98,4 @@ length: 4
 //     }
 // }
 
-
 // https://www.html.cn/web/javascript/14139.html
-

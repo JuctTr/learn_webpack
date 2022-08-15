@@ -5,12 +5,7 @@
  */
 module.exports = {
     root: true,
-    extends: [
-        // "plugin:vue/essential",
-        // "@vue/prettier",
-        'eslint:recommended',
-        'o2team-wx',
-    ],
+    extends: ['eslint:recommended', 'o2team-wx'],
     env: {
         node: true,
         browser: true,
@@ -41,4 +36,4 @@ module.exports = {
             },
         ],
     },
-}
+};
