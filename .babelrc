@@ -1,11 +1,24 @@
 {
-    // "plugins": ["@babel/plugin-transform-arrow-functions"],
     "presets": [
         [
-            "@babel/preset-env",
+            "@babel/preset-env"
+            // {
+            //     "targets": {
+            //         "browsers": "> 0.5%, ie >= 11"
+            //     },
+            //     "useBuiltIns": "usage", // 设置值为 usage 时，就只会包含代码需要的 polyfill
+            //     "corejs": 3
+            // }
+        ]
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime",
             {
-                "useBuiltIns": "usage", // 设置值为 usage 时，就只会包含代码需要的 polyfill
-                "corejs": 3
+                "absoluteRuntime": false,
+                "corejs": 3,
+                "helpers": true,
+                "regenerator": true
             }
         ]
     ]
