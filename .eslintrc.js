@@ -5,7 +5,10 @@
  */
 module.exports = {
     root: true,
-    extends: ['eslint:recommended', 'o2team-wx'],
+    extends: [
+        'eslint:recommended',
+        // 'o2team-wx'
+    ],
     env: {
         node: true,
         browser: true,
@@ -13,27 +16,28 @@ module.exports = {
     },
     parserOptions: {
         ecmaVersion: 2020,
+        sourceType: 'module',
     },
     globals: {
         Vue: false,
     },
     rules: {
-        // 强制使用一致的缩进
-        indent: ['error', 4, { SwitchCase: 1 }],
-        // 要求使用 let 或 const 而不是 var
-        'no-var': 'off',
-        'space-before-function-paren': [2, 'always'],
-        // 要求使用分号代替 ASI
-        semi: 'off',
-        // 自定义规则，方便格式化代码
-        'comma-dangle': [
-            'warn',
-            {
-                arrays: 'always-multiline',
-                objects: 'always-multiline',
-                imports: 'ignore',
-                functions: 'ignore',
-            },
-        ],
+        // // 强制使用一致的缩进
+        // indent: ['error', 4, { SwitchCase: 1 }],
+        // // 要求使用 let 或 const 而不是 var
+        // 'no-var': 'off',
+        // 'space-before-function-paren': [2, 'always'],
+        // // 要求使用分号代替 ASI
+        // semi: 'off',
+        // // 自定义规则，方便格式化代码
+        // 'comma-dangle': [
+        //     'warn',
+        //     {
+        //         arrays: 'always-multiline',
+        //         objects: 'always-multiline',
+        //         imports: 'ignore',
+        //         functions: 'ignore',
+        //     },
+        // ],
     },
 };
