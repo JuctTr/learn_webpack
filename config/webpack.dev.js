@@ -1,6 +1,6 @@
-const { merge } = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const commonWebpackConfig = require('./webpack.common')
+const commonWebpackConfig = require('./webpack.common');
 
 /**
  * @description 速度分析插件
@@ -10,8 +10,8 @@ const commonWebpackConfig = require('./webpack.common')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const devConfig = merge(commonWebpackConfig, {
-    mode: 'development',
     target: 'web', // webpack5.x 加上之后热更新才有效果
+    mode: 'development',
     /**
      * @description 开发工具，开启 source map，编译调试
      * @document https://webpack.docschina.org/configuration/devtool/
@@ -35,7 +35,7 @@ const devConfig = merge(commonWebpackConfig, {
         // 打开浏览器
         open: true,
     },
-})
+});
 
 /**
  * @description 插件本身的问题
@@ -43,8 +43,10 @@ const devConfig = merge(commonWebpackConfig, {
  * @path /node_modules/mini-css-extract-plugin/dist/loader.js 51行
  */
 const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(devConfig);
-configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({
-    filename: '[name].bundle.css',
-}));
+configWithTimeMeasures.plugins.push(
+    new MiniCssExtractPlugin({
+        filename: '[name].bundle.css',
+    })
+);
 
 module.exports = configWithTimeMeasures;

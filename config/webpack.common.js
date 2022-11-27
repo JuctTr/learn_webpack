@@ -1,6 +1,6 @@
 const path = require('path');
-const fs = require('fs')
-const chalk = require('chalk')
+const fs = require('fs');
+const chalk = require('chalk');
 const glob = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,10 +8,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 /**
  * @description 编译进度条
  */
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-// const CustomWebpackPlugin = require('../plugins/customWebpackPlugin')
-const CompressAssetsPlugin = require('../plugins/CompressAssetsPlugin');
+// const CustomWebpackPlugin = require('../plugins/customWebpackPlugin');
+// const CompressAssetsPlugin = require('../plugins/CompressAssetsPlugin');
 
 // const devMode = process.env.NODE_ENV !== 'production';
 const appDirectory = fs.realpathSync(process.cwd());
@@ -20,7 +20,7 @@ const appDirectory = fs.realpathSync(process.cwd());
  * @description 多页面打包应用
  * @returns
  */
-function setMPA () {
+function setMPA() {
     const entry = {};
     const htmlWebpackPlugins = [];
     const entryFiles = glob.sync(path.join(appDirectory, './src/pages/*/index.js'));
@@ -61,7 +61,6 @@ function setMPA () {
 
 const { entry, htmlWebpackPlugins } = setMPA(); // 多页面打包应用
 
-
 module.exports = {
     // extensions 表示需要解析的文件类型列表。
     //  webpack 的解析顺序是从左到右，因此要将使用频率高的文件类型放在左侧
@@ -82,9 +81,9 @@ module.exports = {
             format: `  :msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`,
         }),
         // new CustomWebpackPlugin(),
-        new CompressAssetsPlugin({
-            filename: 'zipFilename',
-        }),
+        // new CompressAssetsPlugin({
+        //     filename: 'zipFilename',
+        // }),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [
@@ -98,15 +97,18 @@ module.exports = {
                     只有工作消耗时间比较长，才需要多进程打包，仅在非常耗时的 loader 前引入 thread-loader
                     thread-loader必须最后执行，再次说明loader是从下往上，从右往左的执行顺序,所以想要使用thread-loader优化某项的打包速度，必须放在其后执行
                     */
-                use: [{
-                    loader: 'thread-loader', // https://webpack.docschina.org/loaders/thread-loader/
-                    options: {
-                        workers: 3,
-                        workerParallelJobs: 2,
-                        // ....
-                    },
-                },
-                'babel-loader', 'eslint-loader'], // ES6+转ES5
+                use: [
+                    // {
+                    //     loader: 'thread-loader', // https://webpack.docschina.org/loaders/thread-loader/
+                    //     options: {
+                    //         workers: 3,
+                    //         workerParallelJobs: 2,
+                    //         // ....
+                    //     },
+                    // },
+                    'babel-loader',
+                    'eslint-loader',
+                ], // ES6+转ES5
             },
             {
                 test: /\.(sa|sc|c)ss$/,
@@ -114,7 +116,8 @@ module.exports = {
                 include: path.resolve(appDirectory, 'src'),
                 use: [
                     // "style-loader",
-                    // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面，而MiniCssExtractPlugin是提取出独立的文件，以link方式引入
+                    // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面，
+                    // 而MiniCssExtractPlugin是提取出独立的文件，以link方式引入
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
@@ -159,22 +162,32 @@ module.exports = {
                 //     },
                 // ],
             },
-            {
-                test: /.js$/,
-                // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
-                use: [
-                    {
-                        loader: path.join(appDirectory, `loaders/condition-loader.js`),
-                        options: {
-                            name: 'conditionLoader',
-                            fileType: 'js',
-                        },
-                    },
-                ],
-            },
+            // {
+            //     test: /.js$/,
+            //     // exclude: /node_modules/,
+            //     include: path.resolve(appDirectory, 'src'),
+            //     use: [
+            //         {
+            //             loader: path.join(appDirectory, `loaders/condition-loader.js`),
+            //             options: {
+            //                 name: 'conditionLoader',
+            //                 fileType: 'js',
+            //             },
+            //         },
+            //     ],
+            // },
         ],
     },
+    // 设置分包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等
+    // externals: {
+    //     jquery: 'jQuery',
+    //     vue: 'Vue',
+    //     lodash: {
+    //         commonjs: 'lodash',
+    //         amd: 'lodash',
+    //         root: '_', // 指向全局变量
+    //     },
+    // },
     /**
      * @document https://webpack.docschina.org/configuration/cache/
      * 通过 cache: filesystem 可以将构建过程的 webpack 模板进行缓存，大幅提升二次构建速度、打包速度，
@@ -189,4 +202,4 @@ module.exports = {
     stats: {
         errorDetails: true,
     },
-}
+};

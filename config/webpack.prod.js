@@ -1,15 +1,15 @@
-const { merge } = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const glob = require('glob');
-const commonWebpackConfig = require('./webpack.common')
+const commonWebpackConfig = require('./webpack.common');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const PurgeCSSPlugin = require('purgecss-webpack-plugin')
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 /**
  * @description 体积分析
  */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(commonWebpackConfig, {
     target: 'web',
@@ -76,4 +76,4 @@ module.exports = merge(commonWebpackConfig, {
         //     moduleIds: 'deterministic',
         // },
     },
-})
+});
