@@ -45,7 +45,7 @@
                 "<node_internals>/**"
             ],
             "runtimeExecutable": "npm",
-            "runtimeArgs": ["run", "dev"],
+            "runtimeArgs": ["run-script", "dev"],
             "program": "${workspaceFolder}",
         },
         {

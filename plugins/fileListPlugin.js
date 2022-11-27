@@ -54,14 +54,11 @@ class FileListPlugin {
 
                     // 向 compilation 添加新的资源，
                     // 这样 webpack 就会自动生成并输出到 output 目录
-                    compilation.emitAsset(
-                        this.options.outputFile,
-                        new RawSource(content)
-                    );
+                    compilation.emitAsset(this.options.outputFile, new RawSource(content));
                 }
             );
         });
     }
 }
 
-module.exports = { FileListPlugin };
+module.exports = FileListPlugin;
