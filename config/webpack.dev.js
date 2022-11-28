@@ -7,7 +7,7 @@ const commonWebpackConfig = require('./webpack.common');
  * 会报 Compilation.hooks.normalModuleLoader was moved to NormalModule.getCompilationHooks(compilation).loader 错误
  * 插件兼容性问题，目前还没有完全和 webpack5 兼容，可以在优化完成后移除相关配置。
  */
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const devConfig = merge(commonWebpackConfig, {
     target: 'web', // webpack5.x 加上之后热更新才有效果
@@ -20,7 +20,11 @@ const devConfig = merge(commonWebpackConfig, {
     output: {
         filename: '[name].bundle.js',
     },
-    // plugins: [],
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].bundle.css',
+        }),
+    ],
     /**
      * @document https://webpack.docschina.org/configuration/dev-server/
      * @description 热更新 HMR 绝对不能被用在生产环境。
@@ -42,11 +46,11 @@ const devConfig = merge(commonWebpackConfig, {
  * @ISSUES https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167
  * @path /node_modules/mini-css-extract-plugin/dist/loader.js 51行
  */
-const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(devConfig);
-configWithTimeMeasures.plugins.push(
-    new MiniCssExtractPlugin({
-        filename: '[name].bundle.css',
-    })
-);
+// const configWithTimeMeasures = new SpeedMeasurePlugin().wrap(devConfig);
+// configWithTimeMeasures.plugins.push(
+//     new MiniCssExtractPlugin({
+//         filename: '[name].bundle.css',
+//     })
+// );
 
-module.exports = configWithTimeMeasures;
+module.exports = devConfig;

@@ -12,6 +12,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const CustomWebpackPlugin = require('../plugins/customWebpackPlugin');
 // const CompressAssetsPlugin = require('../plugins/CompressAssetsPlugin');
+const FileListPlugin = require('../plugins/FileListPlugin');
 
 // const devMode = process.env.NODE_ENV !== 'production';
 const appDirectory = fs.realpathSync(process.cwd());
@@ -84,6 +85,7 @@ module.exports = {
         // new CompressAssetsPlugin({
         //     filename: 'zipFilename',
         // }),
+        new FileListPlugin(),
     ].concat(htmlWebpackPlugins),
     module: {
         rules: [

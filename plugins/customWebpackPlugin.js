@@ -37,7 +37,7 @@ class CustomWebpackPlugin {
         compiler.hooks.initialize.tap('CustomWebpackPlugin', () => {
             console.log('【阶段】initialize =>');
         });
-        compiler.hooks.infrastructureLog.tap('CustomWebpackPlugin', (compilation, callback) => {
+        compiler.hooks.infrastructureLog.tap('CustomWebpackPlugin', (name, type, args) => {
             console.log('【阶段】infrastructureLog =>');
         });
         compiler.hooks.watchRun.tap('CustomWebpackPlugin', (compilation, callback) => {
@@ -57,11 +57,11 @@ class CustomWebpackPlugin {
             console.log('【阶段】contextModuleFactory =>');
         });
         compiler.hooks.beforeCompile.tapAsync('CustomWebpackPlugin', (params, callback) => {
-            console.log('【阶段】beforeCompile =>', params);
+            console.log('【阶段】beforeCompile =>');
             callback();
         });
         compiler.hooks.compile.tap('CustomWebpackPlugin', (compilationParams, callback) => {
-            console.log('【阶段】compile => 在 一 个 新 的 compilation 创 建 之 前 执 行', compilationParams);
+            console.log('【阶段】compile => 在 一 个 新 的 compilation 创 建 之 前 执 行');
         });
         compiler.hooks.thisCompilation.tap('CustomWebpackPlugin', compilation => {
             console.log('【阶段】thisCompilation =>');
@@ -102,7 +102,7 @@ class CustomWebpackPlugin {
             'CustomWebpackPlugin',
             (file, { content, source, outputPath, compilation, targetPath }) => {
                 console.log('【阶段】assetEmitted => 生成文件的时候执行，提供访问产出文件信息的入口');
-                console.log(file, content);
+                // console.log(file, content);
             }
         );
         compiler.hooks.done.tapAsync('CustomWebpackPlugin', (stats, callback) => {
