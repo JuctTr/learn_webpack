@@ -134,6 +134,17 @@ module.exports = {
                 ],
             },
             {
+                test: /.html$/,
+                // exclude: /node_modules/,
+                include: path.resolve(appDirectory, 'src'),
+                loader: path.join(appDirectory, `loaders/html-inline-loader.js`),
+                options: {
+                    name: 'htmlInlineLoader',
+                    fileType: 'html',
+                    esModule: false,
+                },
+            },
+            {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 // exclude: /node_modules/,
                 include: path.resolve(appDirectory, 'src'),

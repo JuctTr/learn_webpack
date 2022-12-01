@@ -14,7 +14,7 @@ const path = require('path');
 runLoaders(
     {
         // String 资源的绝对路径，包括查询字符串（可选）eg: resource: "/abs/path/to/file.txt?query",
-        resource: path.join(__dirname, './loaders/index.js'),
+        resource: path.join(__dirname, './loaders/test.html'),
         /**
          * String[]: loaders 的绝对路径，包括查询字符串（可选）eg: loaders: ["/abs/path/to/loader.js?query"],
          * {loader, options}[]: 带有options对象的loaders的绝对路径
@@ -64,11 +64,18 @@ runLoaders(
             //         name: 'syncLoader',
             //     },
             // },
+            // {
+            //     loader: path.join(__dirname, './loaders/condition-loader.js'),
+            //     options: {
+            //         name: 'conditionLoader',
+            //         fileType: 'js',
+            //     },
+            // },
             {
-                loader: path.join(__dirname, './loaders/condition-loader.js'),
+                loader: path.join(__dirname, './loaders/html-inline-loader.js'),
                 options: {
-                    name: 'conditionLoader',
-                    fileType: 'js',
+                    name: 'htmlInlineLoader',
+                    fileType: 'html',
                 },
             },
         ],

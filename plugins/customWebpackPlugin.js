@@ -64,7 +64,9 @@ class CustomWebpackPlugin {
             console.log('【阶段】compile => 在 一 个 新 的 compilation 创 建 之 前 执 行');
         });
         compiler.hooks.thisCompilation.tap('CustomWebpackPlugin', compilation => {
-            console.log('【阶段】thisCompilation =>');
+            console.log(
+                '【阶段】thisCompilation => 在初始化 compilation 实例的时候，发出编译事件之前执行，这个hook不会被复制到子编译器。'
+            );
         });
         compiler.hooks.compilation.tap('CustomWebpackPlugin', compilation => {
             console.log('【阶段】compilation => 在 一 次 compilation 创 建 后 执 行 插 件');
