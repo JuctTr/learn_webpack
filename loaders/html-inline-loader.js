@@ -25,11 +25,10 @@ function htmlInlineLoader(source, sourceMap, meta) {
             return `<script type="text/javascript">${jsContent}</script>`;
         });
 
-    const options = this.query;
+    const options = this.getOptions();
 
     const esModule = options.esModule === true ? true : false;
 
     return `${esModule ? 'export default' : 'module.exports ='} ${JSON.stringify(source)};`;
 }
-
 module.exports = htmlInlineLoader;

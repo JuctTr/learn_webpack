@@ -6,49 +6,56 @@
  * @param {object} sourceMap SourceMap 数据
  * @param {any} meta meta 数据，可以是任何内容
  */
-function conditionLoader (source, sourceMap, meta) {
+function conditionLoader(source, sourceMap, meta) {
+    this.cacheable && this.cacheable();
     // 获取选项
-    // const options = this.query;
+    // const options = this.getOptions();
+    const options = this.query;
     // 配置文件传进来的文件类型等数据
-    // const { fileType = 'js' } = options;
+    const { fileType, env, type } = options;
 
-    const commentStart = '\\/\\*'
-    const commentEnd = '\\*\\/'
+    const commentStart = '\\/\\*';
+    const commentEnd = '\\*\\/';
 
-    const splitReg = new RegExp(`(${commentStart}\\s*?\\/?wxa[\\s\\S]*?${commentEnd})`)
-    const codeAndAnnoArr = source.split(splitReg)
-    if (codeAndAnnoArr.length <= 1) return source
+    const splitReg = new RegExp(`(${commentStart}\\s*?\\/?wxa[\\s\\S]*?${commentEnd})`);
+    const codeAndAnnoArr = source.split(splitReg);
+    if (codeAndAnnoArr.length <= 1) return source;
 
-    const matchReg = new RegExp(`${commentStart}\\s*?wxa[\\s\\S]+?(if|else-if|else)([\\s\\S]*?)${commentEnd}`)
-    const ifEndReg = new RegExp(`${commentStart}\\s*?\\/wxa\\s*?${commentEnd}`)
+    const matchReg = new RegExp(`${commentStart}\\s*?wxa[\\s\\S]+?(if|else-if|else)([\\s\\S]*?)${commentEnd}`);
+    const ifEndReg = new RegExp(`${commentStart}\\s*?\\/wxa\\s*?${commentEnd}`);
 
-
-    let funcBody = 'let code = ``;'
+    let funcBody = 'let code = ``;';
     codeAndAnnoArr.forEach(fragment => {
-        const matchResut = fragment.match(matchReg)
+        const matchResut = fragment.match(matchReg);
         if (matchResut) {
-            const isIfStart = matchResut[1] === 'if'
-            const isElseIf = matchResut[1] === 'else-if'
-            const isElse = matchResut[1] === 'else'
-            const condition = (matchResut[2] || '').replace(':', '')
+            const isIfStart = matchResut[1] === 'if';
+            const isElseIf = matchResut[1] === 'else-if';
+            const isElse = matchResut[1] === 'else';
+            const condition = (matchResut[2] || '').replace(':', '');
             if (isIfStart && condition) {
-                funcBody += `if(${condition}){`
+                funcBody += `if(${condition}){`;
             } else if (isElseIf && condition) {
-                funcBody += `} else if(${condition}){`
+                funcBody += `} else if(${condition}){`;
             } else if (isElse) {
-                funcBody += `} else {`
+                funcBody += `} else {`;
             } else {
-                throw new Error(`不支持的条件编译语法:${fragment}`)
+                throw new Error(`不支持的条件编译语法:${fragment}`);
             }
         } else if (ifEndReg.test(fragment)) {
-            funcBody += `}`
+            funcBody += `}`;
+        } else {
+            const validFrag = fragment.replace(/`/g, '_@_@_@_').replace(/\${/g, '_#_#_#_').replace(/\\/g, '_!_!_!_');
+            funcBody += `code += \`${validFrag}\`;`; // `需要转义下，不然报错
         }
-    })
+    });
+
+    funcBody += 'return code.replace(/_@_@_@_/g, "`").replace(/_!_!_!_/g, "\\\\").replace(/_#_#_#_/g, "${");';
+
     /* eslint-disable no-new-func */
     try {
-        return new Function('app', 'type', funcBody)()
+        return new Function('app', 'type', funcBody)(env, type);
     } catch (e) {
-        throw new Error(`条件编译存在语法错误${e.message}`)
+        throw new Error(`条件编译存在语法错误${e.message}`);
     }
 
     // callback(

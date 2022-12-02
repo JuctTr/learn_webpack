@@ -46,7 +46,6 @@
             ],
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run-script", "dev"],
-            "program": "${workspaceFolder}",
         },
         {
             "name": "Webpack Build",

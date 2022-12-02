@@ -14,7 +14,7 @@ const path = require('path');
 runLoaders(
     {
         // String 资源的绝对路径，包括查询字符串（可选）eg: resource: "/abs/path/to/file.txt?query",
-        resource: path.join(__dirname, './loaders/test.html'),
+        resource: path.join(__dirname, './loaders/index.js'),
         /**
          * String[]: loaders 的绝对路径，包括查询字符串（可选）eg: loaders: ["/abs/path/to/loader.js?query"],
          * {loader, options}[]: 带有options对象的loaders的绝对路径
@@ -64,20 +64,21 @@ runLoaders(
             //         name: 'syncLoader',
             //     },
             // },
-            // {
-            //     loader: path.join(__dirname, './loaders/condition-loader.js'),
-            //     options: {
-            //         name: 'conditionLoader',
-            //         fileType: 'js',
-            //     },
-            // },
             {
-                loader: path.join(__dirname, './loaders/html-inline-loader.js'),
+                loader: path.join(__dirname, './loaders/condition-loader.js'),
                 options: {
-                    name: 'htmlInlineLoader',
-                    fileType: 'html',
+                    name: 'conditionLoader',
+                    fileType: 'js',
+                    env: 'h5',
                 },
             },
+            // {
+            //     loader: path.join(__dirname, './loaders/html-inline-loader.js'),
+            //     options: {
+            //         name: 'htmlInlineLoader',
+            //         fileType: 'html',
+            //     },
+            // },
         ],
         // 附加的loaders 上下文
         context: {
@@ -122,6 +123,12 @@ runLoaders(
 
         // result.contextDependencies: String[]
         // An array of paths (directories) on which the result depends on
-        err ? console.log('【runLoaders】callback error => ', err) : console.log('【runLoaders】callback => ', result);
+
+        if (err) {
+            console.log('【runLoaders】callback error => ', err);
+        } else {
+            console.log('【runLoaders】callback => ', result);
+            fs.writeFileSync('./dist/run-loader', result.result[0]);
+        }
     }
 );

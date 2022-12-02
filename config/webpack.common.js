@@ -16,6 +16,9 @@ const FileListPlugin = require('../plugins/FileListPlugin');
 
 // const devMode = process.env.NODE_ENV !== 'production';
 const appDirectory = fs.realpathSync(process.cwd());
+const generateAbsolutePath = function (relativePath) {
+    return path.join(appDirectory, relativePath);
+};
 
 /**
  * @description 多页面打包应用
@@ -24,7 +27,7 @@ const appDirectory = fs.realpathSync(process.cwd());
 function setMPA() {
     const entry = {};
     const htmlWebpackPlugins = [];
-    const entryFiles = glob.sync(path.join(appDirectory, './src/pages/*/index.js'));
+    const entryFiles = glob.sync(generateAbsolutePath('./src/pages/*/index.js'));
 
     Object.keys(entryFiles).forEach(index => {
         const entryFile = entryFiles[index];
@@ -39,7 +42,7 @@ function setMPA() {
         htmlWebpackPlugins.push(
             new HtmlWebpackPlugin({
                 title: pageName,
-                template: path.join(appDirectory, `src/pages/${pageName}/index.html`),
+                template: generateAbsolutePath(`src/pages/${pageName}/index.html`),
                 filename: `${pageName}.html`,
                 chunks: ['vendors', pageName],
                 inject: true,
@@ -70,7 +73,7 @@ module.exports = {
     // },
     entry,
     output: {
-        path: path.resolve(appDirectory, 'dist'), // 打包后的文件存放的地方
+        path: generateAbsolutePath('dist'), // 打包后的文件存放的地方
         filename: '[name]_[chunkhash:8].js', // 打包后输出文件的文件名 chunkhash：文件指纹，一般用来做版本管理
         clean: true, // 与 CleanWebpackPlugin 插件的功能一样， 打包时，删除dist目录构建产物，重新生成
     },
@@ -92,7 +95,7 @@ module.exports = {
             {
                 test: /.js$/,
                 // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
+                include: generateAbsolutePath('src'),
                 /*
                     thread-loader会对其后面的loader（这里是babel-loader）开启多进程打包。
                     进程启动大概为600ms，进程通信也有开销。(启动的开销比较昂贵，不要滥用)
@@ -110,12 +113,19 @@ module.exports = {
                     // },
                     'babel-loader',
                     'eslint-loader',
+                    {
+                        loader: generateAbsolutePath(`loaders/condition-loader.js`),
+                        options: {
+                            name: 'conditionLoader',
+                            fileType: 'js',
+                        },
+                    },
                 ], // ES6+转ES5
             },
             {
                 test: /\.(sa|sc|c)ss$/,
                 // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
+                include: generateAbsolutePath('src'),
                 use: [
                     // "style-loader",
                     // 和style-loader 冲突的，功能互斥的，不能一起用，因为style-loader 是把样式插入head里面，
@@ -134,20 +144,9 @@ module.exports = {
                 ],
             },
             {
-                test: /.html$/,
-                // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
-                loader: path.join(appDirectory, `loaders/html-inline-loader.js`),
-                options: {
-                    name: 'htmlInlineLoader',
-                    fileType: 'html',
-                    esModule: false,
-                },
-            },
-            {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
+                include: generateAbsolutePath('src'),
                 // webpack5 资源模块改了 https://webpack.docschina.org/guides/asset-modules/
                 type: 'asset/resource',
                 // use: [
@@ -163,7 +162,7 @@ module.exports = {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 // exclude: /node_modules/,
-                include: path.resolve(appDirectory, 'src'),
+                include: generateAbsolutePath('src'),
                 type: 'asset/resource',
                 // webpack5 资源模块改了 https://webpack.docschina.org/guides/asset-modules/
                 // use: [
@@ -175,20 +174,20 @@ module.exports = {
                 //     },
                 // ],
             },
-            // {
-            //     test: /.js$/,
-            //     // exclude: /node_modules/,
-            //     include: path.resolve(appDirectory, 'src'),
-            //     use: [
-            //         {
-            //             loader: path.join(appDirectory, `loaders/condition-loader.js`),
-            //             options: {
-            //                 name: 'conditionLoader',
-            //                 fileType: 'js',
-            //             },
-            //         },
-            //     ],
-            // },
+            /**
+             * 如果我们这里有一个关于处理 html 文件资产的loader，那么HtmlWebpackPlugin里面的loader就不会执行了
+             * 可以打断点调试
+             */
+            {
+                test: /.html$/,
+                include: generateAbsolutePath('src'),
+                loader: path.join(appDirectory, `loaders/html-inline-loader.js`),
+                options: {
+                    name: 'htmlInlineLoader',
+                    fileType: 'html',
+                    esModule: false,
+                },
+            },
         ],
     },
     // 设置分包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等
