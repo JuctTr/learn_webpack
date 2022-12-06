@@ -190,16 +190,16 @@ module.exports = {
             },
         ],
     },
-    // 设置分包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等
-    // externals: {
-    //     jquery: 'jQuery',
-    //     vue: 'Vue',
-    //     lodash: {
-    //         commonjs: 'lodash',
-    //         amd: 'lodash',
-    //         root: '_', // 指向全局变量
-    //     },
-    // },
+    // 外部扩展，提取第三方依赖包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等
+    externals: {
+        jquery: 'jQuery',
+        // vue: 'Vue',
+        lodash: {
+            commonjs: 'lodash',
+            amd: 'lodash',
+            root: '_', // 指向全局变量
+        },
+    },
     /**
      * @document https://webpack.docschina.org/configuration/cache/
      * 通过 cache: filesystem 可以将构建过程的 webpack 模板进行缓存，大幅提升二次构建速度、打包速度，

@@ -20,6 +20,8 @@ module.exports = {
     },
     globals: {
         Vue: false,
+        _: true,
+        $: true,
     },
     rules: {
         // // 强制使用一致的缩进

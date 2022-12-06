@@ -70,6 +70,7 @@
         "@babel/runtime": "^7.19.0",
         "@babel/runtime-corejs3": "^7.19.1",
         "core-js": "^3.22.2",
+        "jquery": "^3.6.1",
         "loader-runner": "^4.2.0",
         "lodash": "^4.17.21"
     },
