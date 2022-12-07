@@ -14,6 +14,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = merge(commonWebpackConfig, {
     target: 'web',
     mode: 'production',
+    // mode: 'development',
+    // devtool: 'inline-source-map',
     plugins: [
         // 将 CSS 提取到单独的文件中
         new MiniCssExtractPlugin({
@@ -59,16 +61,20 @@ module.exports = merge(commonWebpackConfig, {
                 },
             }),
         ],
+        // minimize: false,
         /**
          * @description 抽离重复代码
          * @document https://webpack.docschina.org/plugins/split-chunks-plugin/
+         *           https://juejin.cn/post/6844903680307625997
          */
         // splitChunks: {
+        //     minSize: 0,
         //     // include all types of chunks
         //     chunks: 'all',
         //     // 重复打包问题
         //     cacheGroups: {
-        //         vendors: { // node_modules里的代码
+        //         vendors: {
+        //             // node_modules里的代码
         //             test: /[\\/]node_modules[\\/]/,
         //             chunks: 'all',
         //             // name: 'vendors', 一定不要定义固定的name
