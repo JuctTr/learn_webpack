@@ -24,7 +24,11 @@ module.exports = merge(commonWebpackConfig, {
     ],
     optimization: {
         minimizer: [
-            // 和 optimize-css-assets-webpack-plugin 相比， css-minimizer-webpack-plugin 在 source maps 和 assets 中使用查询字符串会更加准确，而且支持缓存和并发模式下运行。
+            /**
+             * 和 optimize-css-assets-webpack-plugin 相比， css-minimizer-webpack-plugin
+             * 在 source maps 和 assets 中使用查询字符串会更加准确，而且支持缓存和并发模式下运行。
+             * 压缩 css 文件中的代码
+             */
             new CssMinimizerPlugin({
                 parallel: 4,
             }),

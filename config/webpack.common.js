@@ -45,14 +45,16 @@ function setMPA() {
                 template: generateAbsolutePath(`src/pages/${pageName}/index.html`),
                 filename: `${pageName}.html`,
                 chunks: ['vendors', pageName],
-                inject: true,
+                inject: true, // 静态资源插入到 html 的位置，有 'body' / 'head' / true三个值
+                meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
+                // base: 'https://example.com/path/page.html',
                 minify: {
                     html5: true,
                     collapseWhitespace: true,
                     preserveLineBreaks: false,
                     minifyCSS: true,
                     minifyJS: true,
-                    removeComments: false,
+                    removeComments: true,
                 },
             })
         );
@@ -68,9 +70,9 @@ const { entry, htmlWebpackPlugins } = setMPA(); // 多页面打包应用
 module.exports = {
     // extensions 表示需要解析的文件类型列表。
     //  webpack 的解析顺序是从左到右，因此要将使用频率高的文件类型放在左侧
-    // resolve: {
-    //     extensions: ['.tsx', '.js'], // 因为我的项目只有这两种类型的文件，如果有其他类型，需要添加进去。
-    // },
+    resolve: {
+        extensions: ['.js', '.scss', '.json', '.jsx', '.tsx'], // 因为我的项目只有这两种类型的文件，如果有其他类型，需要添加进去。
+    },
     entry,
     output: {
         path: generateAbsolutePath('dist'), // 打包后的文件存放的地方
@@ -178,16 +180,16 @@ module.exports = {
              * 如果我们这里有一个关于处理 html 文件资产的loader，那么HtmlWebpackPlugin里面的loader就不会执行了
              * 可以打断点调试
              */
-            {
-                test: /.html$/,
-                include: generateAbsolutePath('src'),
-                loader: path.join(appDirectory, `loaders/html-inline-loader.js`),
-                options: {
-                    name: 'htmlInlineLoader',
-                    fileType: 'html',
-                    esModule: false,
-                },
-            },
+            // {
+            //     test: /.html$/,
+            //     include: generateAbsolutePath('src'),
+            //     loader: path.join(appDirectory, `loaders/html-inline-loader.js`),
+            //     options: {
+            //         name: 'htmlInlineLoader',
+            //         fileType: 'html',
+            //         esModule: false,
+            //     },
+            // },
         ],
     },
     // 外部扩展，提取第三方依赖包，对基础包和业务基础包打包成一个文件，如react、react-dom、redux、react-redux等

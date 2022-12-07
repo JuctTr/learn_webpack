@@ -5,7 +5,7 @@
     "main": "src/index.js",
     "scripts": {
         "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
-        "dev": "cross-env NODE_ENV=development webpack serve --open --config config/webpack.dev.js",
+        "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
         "lint": "eslint --fix --ext .js,.vue src",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dll": "webpack --config webpack.dll.js",
@@ -62,7 +62,7 @@
         "webpack": "^5.39.1",
         "webpack-bundle-analyzer": "^4.4.2",
         "webpack-cli": "^4.7.2",
-        "webpack-dev-server": "^3.11.2",
+        "webpack-dev-server": "^4.11.1",
         "webpack-merge": "^5.8.0",
         "webpack-sources": "^3.2.3"
     },
