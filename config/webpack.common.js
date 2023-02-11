@@ -196,11 +196,11 @@ module.exports = {
     externals: {
         jquery: 'jQuery',
         // vue: 'Vue',
-        lodash: {
-            commonjs: 'lodash',
-            amd: 'lodash',
-            root: '_', // 指向全局变量
-        },
+        // lodash: {
+        //     commonjs: 'lodash',
+        //     amd: 'lodash',
+        //     root: '_', // 指向全局变量
+        // },
     },
     /**
      * @document https://webpack.docschina.org/configuration/cache/

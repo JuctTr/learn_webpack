@@ -25,6 +25,8 @@ module.exports = merge(commonWebpackConfig, {
         new BundleAnalyzerPlugin(),
     ],
     optimization: {
+        usedExports: true, // 启动 TreeShaking 的标记功能
+        // minimize: true,
         minimizer: [
             /**
              * 和 optimize-css-assets-webpack-plugin 相比， css-minimizer-webpack-plugin
@@ -61,7 +63,6 @@ module.exports = merge(commonWebpackConfig, {
                 },
             }),
         ],
-        // minimize: false,
         /**
          * @description 抽离重复代码
          * @document https://webpack.docschina.org/plugins/split-chunks-plugin/
