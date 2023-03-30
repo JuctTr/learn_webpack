@@ -142,6 +142,15 @@ module.exports = {
                             },
                         },
                     },
+                    {
+                        loader: path.join(appDirectory, `loaders/px2vw-loader.js`),
+                        options: {
+                            viewportWidth: 375,
+                            afterConvertUnit: 'vw',
+                            decimal: 8,
+                            excludes: ['src/pages/css/exclude.scss', /regexp\.css/],
+                        },
+                    },
                     'sass-loader',
                 ],
             },
